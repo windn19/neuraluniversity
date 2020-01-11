@@ -30,6 +30,6 @@ def less_letters(names):
 
 source = choice_name(['Абрам', 'Аваз', 'Аввакум', 'Август', 'Августин', 'Авдей', 'Авраам', 'Автандил',
                       'Агап', 'Агафон', 'Аггей', 'Адам', 'Адис', 'Адольф', 'Адриан'], len_list=100)
-print(source)
-print(most_frequent(source))
-print(less_letters(source))
+# print(source)
+# print(most_frequent(source))
+# print(less_letters(source))
