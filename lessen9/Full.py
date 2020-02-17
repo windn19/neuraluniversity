@@ -72,9 +72,10 @@ class Full:
         num_set = set()
         while not self.game_over:
             player = self.players[i % len(self.players)]
+            print('Козырная масть: ', self.trump_suit)
             answer = player.move(card1=con, trump_suit=self.trump_suit, con_set=num_set) if circle < 6 else False
-            print('Trump: ', self.trump_suit)
-            print(answer)
+            if answer:
+                print(f'{player.name} сходил:', ''.join(answer[::-1]))
             if answer:
                 if player.batter:
                     if (con[0] == answer[0] and sample.index(answer[1]) > sample.index(con[1]))\
@@ -84,12 +85,12 @@ class Full:
                         circle += 1
                     else:
                         player.cards[answer[0]].append(answer[1])
-                        print('Fail step')
+                        print('Неправильный ход')
                         continue
                 else:
                     num_con = sum(len(x) for x in con_dist.values())
                     if num_con and answer[1] not in num_set:
-                        print('Fail step')
+                        print('Неправильный ход')
                         player.cards[answer[0]].append(answer[1])
                         continue
                 con = answer
@@ -98,8 +99,10 @@ class Full:
                         num_set.add(num)
             else:
                 if player.attack:
+                    print('Бито.')
                     self.change(new=False, change=True)
                 else:
+                    print(f'{player.name} взял')
                     con_dist[con[0]].append(con[1])
                     for suit in con_dist.keys():
                         player.cards[suit].extend(con_dist[suit])
@@ -118,10 +121,14 @@ class Player:
         self.human = human
         self.batter = None
         self.attack = None
-        self.name = input('Your name: ') if self.human else 'Comp'
+        self.name = input('Ваше имя: ') if self.human else 'Комп'
 
     def __str__(self):
-        return f'{self.name}: {self.cards} '
+        inn = []
+        for item in self.cards.keys():
+            for cart in self.cards[item]:
+                inn.append(cart+item)
+        return f'{self.name}: {" ".join(inn)} '
 
     @property
     def is_alive(self):
